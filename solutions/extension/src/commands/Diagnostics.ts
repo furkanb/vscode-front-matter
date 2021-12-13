@@ -2,7 +2,7 @@ import { Folders } from "./Folders";
 import { ViewColumn, workspace } from "vscode";
 import ContentProvider from "../providers/ContentProvider";
 import { join } from "path";
-import { ContentFolder } from "../models";
+import { ContentFolder } from "@frontmatter/common";
 
 
 export class Diagnostics {

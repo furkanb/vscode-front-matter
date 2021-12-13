@@ -1,5 +1,5 @@
 import * as toml from '@iarna/toml';
-import { SETTING_FRONTMATTER_TYPE } from '../constants';
+import { SETTING_FRONTMATTER_TYPE } from '@frontmatter/common';
 import { Settings } from './SettingsHelper';
 
 export const getFmLanguage = (): string => {

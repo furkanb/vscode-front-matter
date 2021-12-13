@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MessageHelper } from '../../helpers/MessageHelper';
 import { SlugHelper } from '../../helpers/SlugHelper';
-import { Slug } from '../../models/PanelSettings';
+import { Slug } from '@frontmatter/common';
 import { CommandToCode } from '../CommandToCode';
 import { ActionButton } from './ActionButton';
 

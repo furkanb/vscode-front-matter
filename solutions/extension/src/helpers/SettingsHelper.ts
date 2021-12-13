@@ -1,8 +1,9 @@
 import { Notifications } from './Notifications';
 import { commands, Uri, workspace, window } from 'vscode';
 import * as vscode from 'vscode';
-import { ContentType, CustomTaxonomy, TaxonomyType } from '../models';
-import { SETTING_TAXONOMY_TAGS, SETTING_TAXONOMY_CATEGORIES, CONFIG_KEY, CONTEXT, ExtensionState, SETTING_TAXONOMY_CUSTOM } from '../constants';
+import { ContentType, CustomTaxonomy, TaxonomyType } from '@frontmatter/common';
+import { CONTEXT } from '../constants';
+import { CONFIG_KEY, SETTING_TAXONOMY_TAGS, SETTING_TAXONOMY_CATEGORIES, ExtensionState, SETTING_TAXONOMY_CUSTOM } from '@frontmatter/common';
 import { Folders } from '../commands/Folders';
 import { join, basename } from 'path';
 import { existsSync, readFileSync, watch, writeFileSync } from 'fs';

@@ -1,5 +1,6 @@
 import { commands, window, Selection, QuickPickItem } from "vscode";
-import { COMMAND_NAME, CONTEXT, SETTINGS_CONTENT_WYSIWYG } from "../constants";
+import { COMMAND_NAME, CONTEXT } from "../constants";
+import { SETTINGS_CONTENT_WYSIWYG } from "@frontmatter/common";
 import { Settings } from "../helpers";
 
 enum MarkupType {

@@ -1,8 +1,7 @@
 import { Questions } from './../helpers/Questions';
-import { SETTINGS_CONTENT_PAGE_FOLDERS, SETTINGS_CONTENT_STATIC_FOLDER } from './../constants';
 import { commands, Uri, workspace, window } from "vscode";
 import { basename, join } from "path";
-import { ContentFolder, FileInfo, FolderInfo } from "../models";
+import { ContentFolder, FileInfo, FolderInfo, parseWinPath, SETTINGS_CONTENT_PAGE_FOLDERS, SETTINGS_CONTENT_STATIC_FOLDER } from "@frontmatter/common";
 import uniqBy from "lodash.uniqby";
 import { Template } from "./Template";
 import { Notifications } from "../helpers/Notifications";
@@ -10,7 +9,6 @@ import { Settings } from "../helpers";
 import { existsSync, mkdirSync } from 'fs';
 import { format } from 'date-fns';
 import { Dashboard } from './Dashboard';
-import { parseWinPath } from '../helpers/parseWinPath';
 
 export const WORKSPACE_PLACEHOLDER = `[[workspace]]`;
 

@@ -1,4 +1,3 @@
-import { CustomScript as ICustomScript, ScriptType } from '../models/PanelSettings';
 import { window, env as vscodeEnv, ProgressLocation } from 'vscode';
 import { ArticleHelper } from '.';
 import { Folders } from '../commands/Folders';
@@ -9,7 +8,7 @@ import { join } from 'path';
 import { Notifications } from './Notifications';
 import ContentProvider from '../providers/ContentProvider';
 import { Dashboard } from '../commands/Dashboard';
-import { DashboardCommand } from '../dashboardWebView/DashboardCommand';
+import { DashboardCommand, CustomScript as ICustomScript, ScriptType  } from '@frontmatter/common';
 
 export class CustomScript {
 
@@ -106,6 +105,7 @@ export class CustomScript {
   
           CustomScript.showOutput(stdout, script);
   
+          // TODO: Check the pagination.tsx file if it updates media
           Dashboard.postWebviewMessage({ 
             command: DashboardCommand.mediaUpdate
           });

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PanelSettings } from '../../models/PanelSettings';
+import { PanelSettings } from '@frontmatter/common';
 import { Collapsible } from './Collapsible';
 import { CustomScript } from './CustomScript';
 import { Preview } from './Preview';

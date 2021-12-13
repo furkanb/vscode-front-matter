@@ -1,5 +1,4 @@
-import next from "next";
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import { Extension } from "./Extension";
 import { join } from "path";
@@ -17,58 +16,43 @@ export class LocalServer {
     return LocalServer.server !== null;
   }
   
-  public static async start(registerEndpoints: (app: express.Express) => void | null) {
+  public static async start(registerEndpoints: (app: Express) => void | null) {
     return new Promise(async (resolve, reject) => {
+      const isProduction = Extension.getInstance().isProductionMode;
       const expressApp = express();
 
-      if (Extension.getInstance().isProductionMode) {
-        const app = next({
-          dir: join(Extension.getInstance().extensionPath.fsPath, 'site')
-        });
-  
-        const handle = app.getRequestHandler();
-        const expressApp = express();
-  
-        app.prepare().then(() => {
-  
-          const wsFolder = Folders.getWorkspaceFolder();
-          if (wsFolder) {
-            expressApp.use(express.static(wsFolder.fsPath));
-            expressApp.use('/', express.static(Extension.getInstance().extensionPath.fsPath));
-            console.log(`Configured the static path to ${wsFolder.fsPath}`);
-          }
-          
-          if (registerEndpoints) {
-            registerEndpoints(expressApp);
-          }
-
-          expressApp.all('*', (req, res) => {
-            return handle(req, res)
-          });
-            
-          LocalServer.server = expressApp.listen(0, () => {
-            LocalServer.sitePort = (LocalServer.server?.address() as AddressInfo)?.port;
-            LocalServer.apiPort = (LocalServer.server?.address() as AddressInfo)?.port;
-
-            Logger.info(`> Server ready on http://localhost:${LocalServer.sitePort}`);
-
-            resolve(null);
-          })
-        })
-        .catch((ex) => {
-          Logger.info(ex.stack)
-          reject(ex);
-        });
-      } else {
-        expressApp.use(cors({
-          origin: 'http://localhost:3000'
-        }));
+      if (!isProduction) {
+        expressApp.use(cors());
+      }
         
-        if (registerEndpoints) {
-          registerEndpoints(expressApp);
-        }
+      if (registerEndpoints) {
+        registerEndpoints(expressApp);
+      }
+
+      expressApp.use(express.static(Extension.getInstance().extensionPath.fsPath));
+      expressApp.use(express.static(join(Extension.getInstance().extensionPath.fsPath, 'site')));
+
+      const wsFolder = Folders.getWorkspaceFolder();
+      if (wsFolder) {
+        expressApp.use(express.static(wsFolder.fsPath));
+        Logger.info(`Static serving workspace folder: ${wsFolder.fsPath}`);
+      }
+
+      if (isProduction) {
+        expressApp.all('*', (req, res) => {
+          return res.sendFile(join(Extension.getInstance().extensionPath.fsPath, req.url));
+        });
           
         LocalServer.server = expressApp.listen(0, () => {
+          LocalServer.sitePort = (LocalServer.server?.address() as AddressInfo)?.port;
+          LocalServer.apiPort = (LocalServer.server?.address() as AddressInfo)?.port;
+
+          Logger.info(`> Server ready on http://localhost:${LocalServer.sitePort}`);
+
+          resolve(null);
+        })
+      } else {          
+        LocalServer.server = expressApp.listen(`${process.env.API_DEV_PORT || 3001}`, () => {
           LocalServer.apiPort = (LocalServer.server?.address() as AddressInfo)?.port;
 
           Logger.info(`> API ready on http://localhost:${LocalServer.apiPort}`);

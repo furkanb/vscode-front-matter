@@ -7,3 +7,26 @@ body,
 div#__next {
   @apply h-full w-full;
 }
+
+.loader {
+  border-top-color: #15c2cb;
+  animation: spinner 1.5s linear infinite;
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+[type=checkbox]:checked {
+  background-image: none;
+}
+
+[type=checkbox]:checked:after {
+  content: '\2713';
+  font-size: 14px;
+  position: absolute;
+  top: -1px;
+  left: 2px;
+  color: white;
+}

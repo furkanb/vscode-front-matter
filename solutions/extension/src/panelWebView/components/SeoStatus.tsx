@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SEO } from '../../models/PanelSettings';
+import { SEO } from '@frontmatter/common';
 import { ArticleDetails } from './ArticleDetails';
 import { Collapsible } from './Collapsible';
 import { SeoFieldInfo } from './SeoFieldInfo';

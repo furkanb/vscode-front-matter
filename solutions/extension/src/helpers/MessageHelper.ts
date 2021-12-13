@@ -1,4 +1,4 @@
-import { DashboardMessage } from '../dashboardWebView/DashboardMessage';
+import { DashboardMessage } from '@frontmatter/common';
 import { CommandToCode } from "../panelWebView/CommandToCode";
 
 

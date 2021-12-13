@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MessageHelper } from '../../helpers/MessageHelper';
-import { DashboardData } from '../../models/DashboardData';
-import { FolderInfo, PanelSettings } from '../../models/PanelSettings';
+import { DashboardData, FolderInfo, PanelSettings } from '@frontmatter/common';
 import { Command } from '../Command';
 import { CommandToCode } from '../CommandToCode';
 import { TagType } from '../TagType';

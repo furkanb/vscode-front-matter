@@ -1,6 +1,6 @@
 import { existsSync } from "fs";
 import { resolve } from "path";
-import { FrameworkDetectors } from "../constants/FrameworkDetectors";
+import { FrameworkDetectors } from "@frontmatter/common";
 import { Extension } from "./Extension";
 
 export class FrameworkDetector {

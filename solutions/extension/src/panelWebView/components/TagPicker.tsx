@@ -7,7 +7,7 @@ import Downshift from 'downshift';
 import { AddIcon } from './Icons/AddIcon';
 import { VsLabel } from './VscodeComponents';
 import { MessageHelper } from '../../helpers/MessageHelper';
-import { CustomTaxonomyData } from '../../models';
+import { CustomTaxonomyData } from '@frontmatter/common';
 
 export interface ITagPickerProps {
   type: TagType;

@@ -17,7 +17,8 @@ const config = [
     },
     devtool: 'source-map',
     externals: {
-      vscode: 'commonjs vscode'
+      vscode: 'commonjs vscode',
+      express: 'express'
     },
     resolve: {
       extensions: ['.ts', '.js']
@@ -36,38 +37,38 @@ const config = [
       maxAssetSize: 400000
     }
   },
-  // {
-  //   name: 'panelWebView',
-  //   target: 'web',
-  //   entry: './src/panelWebView/index.tsx',
-  //   output: {
-  //     path: path.resolve(__dirname, 'dist'),
-  //     filename: 'viewpanel.js'
-  //   },
-  //   devtool: 'source-map',
-  //   resolve: {
-  //     extensions: ['.ts', '.js', '.tsx', '.jsx']
-  //   },
-  //   module: {
-  //     rules: [
-  //       {
-  //         test: /\.(ts|tsx)$/,
-  //         exclude: /node_modules/,
-  //         use: [{
-  //           loader: 'ts-loader'
-  //         }]
-  //       },
-  //       {
-  //         test: /\.css$/,
-  //         use: ['style-loader', 'css-loader']
-  //       }
-  //     ]
-  //   },
-  //   performance: {
-  //     maxEntrypointSize: 400000,
-  //     maxAssetSize: 400000
-  //   }
-  // },
+  {
+    name: 'panelWebView',
+    target: 'web',
+    entry: './src/panelWebView/index.tsx',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'viewpanel.js'
+    },
+    devtool: 'source-map',
+    resolve: {
+      extensions: ['.ts', '.js', '.tsx', '.jsx']
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          use: [{
+            loader: 'ts-loader'
+          }]
+        },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader']
+        }
+      ]
+    },
+    performance: {
+      maxEntrypointSize: 400000,
+      maxAssetSize: 400000
+    }
+  },
   // {
   //   name: 'dashboardWebView',
   //   target: 'web',

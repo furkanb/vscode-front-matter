@@ -8,7 +8,7 @@
     "dev": "lerna run dev --stream",
     "site:delete": "rm -rf ./solutions/extension/site",
     "site:create": "mkdir ./solutions/extension/site",
-    "site:copy": "cp -R ./solutions/webview/.next ./solutions/extension/site/.next",
+    "site:copy": "cp -R ./solutions/webview/out/* ./solutions/extension/site",
     "ext:copy": "cp ./solutions/extension/*.vsix ./",
     "build": "lerna run build && npm run site:delete && npm run site:create && npm run site:copy && lerna run vscode:package && npm run ext:copy"
   }

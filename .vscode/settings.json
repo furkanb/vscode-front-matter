@@ -12,6 +12,7 @@
     "eliostruyf.writingstyleguide.biasFree.isDisabled": true,
     "exportall.config.folderListener": [
         "/src/pagesView/state/atom",
-        "/src/pagesView/state/selectors"
+        "/src/pagesView/state/selectors",
+        "/solutions/common/src/helpers"
     ]
 }

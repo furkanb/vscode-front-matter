@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SPONSOR_LINK } from '../../constants/Links';
+import { SPONSOR_LINK } from '@frontmatter/common';
 import { HeartIcon } from './Icons/HeartIcon';
 
 export interface ISponsorMsgProps {}

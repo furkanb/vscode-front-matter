@@ -1,3 +1,4 @@
+import { MediaHelpers } from './MediaHelpers';
 
 import { Dashboard } from '../commands/Dashboard';
 import { workspace } from 'vscode';
@@ -6,8 +7,8 @@ import { basename, dirname, join, parse } from 'path';
 import { Folders, WORKSPACE_PLACEHOLDER } from '../commands/Folders';
 import { existsSync, renameSync } from 'fs';
 import { Notifications } from './Notifications';
-import { parseWinPath } from './parseWinPath';
 import { LocalStore } from '../constants';
+import { parseWinPath } from '@frontmatter/common';
 
 interface MediaRecord {
   description: string;
@@ -34,7 +35,7 @@ export class MediaLibrary {
             f.oldUri.path.endsWith('.png') || 
             f.oldUri.path.endsWith('.gif')) {
           this.rename(f.oldUri.fsPath, f.newUri.fsPath);
-          Dashboard.resetMedia();
+          MediaHelpers.resetMedia();
         }
       });
     });
@@ -89,7 +90,7 @@ export class MediaLibrary {
         } else {
           renameSync(filePath, newPath);
           this.rename(filePath, newPath);
-          Dashboard.resetMedia();
+          MediaHelpers.resetMedia();
         }
       } catch(err) {
         Notifications.error(`Something went wrong updating "${name}" to "${filename}".`);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PanelSettings } from '../../models';
+import { PanelSettings } from '@frontmatter/common';
 import { CommandToCode } from '../CommandToCode';
 import { MessageHelper } from '../../helpers/MessageHelper';
 import { useDebounce } from '../../hooks/useDebounce';

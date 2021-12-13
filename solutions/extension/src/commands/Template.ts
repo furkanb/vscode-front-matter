@@ -2,7 +2,7 @@ import { Questions } from './../helpers/Questions';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { SETTING_TEMPLATES_FOLDER, SETTING_TEMPLATES_PREFIX } from '../constants';
+import { SETTING_TEMPLATES_FOLDER } from '@frontmatter/common';
 import { ArticleHelper, Settings } from '../helpers';
 import { Article } from '.';
 import { Notifications } from '../helpers/Notifications';
@@ -10,7 +10,7 @@ import { CONTEXT } from '../constants';
 import { Project } from './Project';
 import { Folders } from './Folders';
 import { ContentType } from '../helpers/ContentType';
-import { ContentType as IContentType } from '../models';
+import { ContentType as IContentType } from '@frontmatter/common';
 
 export class Template {
 

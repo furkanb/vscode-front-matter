@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import matter from 'gray-matter';
-import { TaxonomyType } from "../models";
-import { SETTING_TAXONOMY_TAGS, SETTING_TAXONOMY_CATEGORIES, EXTENSION_NAME } from '../constants';
+import { TaxonomyType } from "@frontmatter/common";
+import { SETTING_TAXONOMY_TAGS, SETTING_TAXONOMY_CATEGORIES, EXTENSION_NAME } from '@frontmatter/common';
 import { ArticleHelper, Settings as SettingsHelper, FilesHelper } from '../helpers';
 import { TomlEngine, getFmLanguage, getFormatOpts } from '../helpers/TomlEngine';
 import { DumpOptions } from 'js-yaml';

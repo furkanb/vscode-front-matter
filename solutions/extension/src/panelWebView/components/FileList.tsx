@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FileInfo } from '../../models';
+import { FileInfo } from '@frontmatter/common';
 import { FileItem } from './FileItem';
 import { VsLabel } from './VscodeComponents';
 

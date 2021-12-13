@@ -8,17 +8,16 @@ import { Preview } from './commands/Preview';
 import { Project } from './commands/Project';
 import { Template } from './commands/Template';
 import { COMMAND_NAME } from './constants';
-import { TaxonomyType } from './models';
 import { MarkdownFoldingProvider } from './providers/MarkdownFoldingProvider';
 import { TagType } from './panelWebView/TagType';
 import { ExplorerView } from './explorerView/ExplorerView';
 import { Extension } from './helpers/Extension';
-import { DashboardData } from './models/DashboardData';
 import { Settings as SettingsHelper } from './helpers';
 import { Content } from './commands/Content';
 import ContentProvider from './providers/ContentProvider';
 import { Wysiwyg } from './commands/Wysiwyg';
 import { Diagnostics } from './commands/Diagnostics';
+import { TaxonomyType, DashboardData } from '@frontmatter/common';
 
 let frontMatterStatusBar: vscode.StatusBarItem;
 let statusDebouncer: { (fnc: any, time: number): void; };

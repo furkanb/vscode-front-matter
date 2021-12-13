@@ -1,12 +1,10 @@
 import { ArticleHelper, Settings } from ".";
-import { SETTINGS_CONTENT_DRAFT_FIELD, SETTING_TAXONOMY_CONTENT_TYPES } from "../constants";
-import { ContentType as IContentType, DraftField } from '../models';
+import { ContentType as IContentType, DraftField, SETTINGS_CONTENT_DRAFT_FIELD, SETTING_TAXONOMY_CONTENT_TYPES, DEFAULT_CONTENT_TYPE_NAME } from '@frontmatter/common';
 import { Uri, workspace, window } from 'vscode'; 
 import { Folders } from "../commands/Folders";
 import { Questions } from "./Questions";
 import { writeFileSync } from "fs";
 import { Notifications } from "./Notifications";
-import { DEFAULT_CONTENT_TYPE_NAME } from "../constants/ContentType";
 
 
 export class ContentType {

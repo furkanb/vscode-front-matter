@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FolderInfo, PanelSettings } from '../../models';
+import { FolderInfo, PanelSettings } from '@frontmatter/common';
 import { CommandToCode } from '../CommandToCode';
 import { MessageHelper } from '../../helpers/MessageHelper';
 import { Collapsible } from './Collapsible';

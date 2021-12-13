@@ -1,6 +1,6 @@
 import { TextEditorDecorationType } from 'vscode';
 import { CancellationToken, FoldingContext, FoldingRange, FoldingRangeKind, FoldingRangeProvider, Range, TextDocument, window, Position } from 'vscode';
-import { SETTINGS_CONTENT_FRONTMATTER_HIGHLIGHT } from '../constants';
+import { SETTINGS_CONTENT_FRONTMATTER_HIGHLIGHT } from '@frontmatter/common';
 import { Settings } from '../helpers';
 import { FrontMatterDecorationProvider } from './FrontMatterDecorationProvider';
 

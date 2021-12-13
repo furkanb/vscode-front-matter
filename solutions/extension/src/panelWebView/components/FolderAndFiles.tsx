@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FolderInfo } from '../../models';
+import { FolderInfo } from '@frontmatter/common';
 import { Collapsible } from './Collapsible';
 import { FileList } from './FileList';
 import { VsLabel } from './VscodeComponents';

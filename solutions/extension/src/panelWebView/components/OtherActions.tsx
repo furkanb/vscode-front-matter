@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PanelSettings } from '../../models';
+import { PanelSettings } from '@frontmatter/common';
 import { CommandToCode } from '../CommandToCode';
 import { MessageHelper } from '../../helpers/MessageHelper';
 import { Collapsible } from './Collapsible';
@@ -11,7 +11,7 @@ import { SettingsIcon } from './Icons/SettingsIcon';
 import { TemplateIcon } from './Icons/TemplateIcon';
 import { WritingIcon } from './Icons/WritingIcon';
 import { OtherActionButton } from './OtherActionButton';
-import { ISSUE_LINK } from '../../constants/Links';
+import { ISSUE_LINK } from '@frontmatter/common';
 
 export interface IOtherActionsProps {
   isFile: boolean;

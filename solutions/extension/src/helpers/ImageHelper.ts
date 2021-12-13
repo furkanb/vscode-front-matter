@@ -1,11 +1,10 @@
 import { Uri, window } from 'vscode'; 
 import { dirname, join } from "path";
-import { Field } from '../models';
+import { Field } from '@frontmatter/common';
 import { existsSync } from 'fs';
 import { Folders } from '../commands/Folders';
 import { Settings } from './SettingsHelper';
-import { SETTINGS_CONTENT_STATIC_FOLDER } from '../constants';
-import { parseWinPath } from './parseWinPath';
+import { parseWinPath, SETTINGS_CONTENT_STATIC_FOLDER } from '@frontmatter/common';
 
 export class ImageHelper {
 

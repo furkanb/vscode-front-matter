@@ -2,7 +2,7 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import Downshift from 'downshift';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Choice } from '../../../models/Choice';
+import { Choice } from '@frontmatter/common';
 import { VsLabel } from '../VscodeComponents';
 import { ChoiceButton } from './ChoiceButton';
 

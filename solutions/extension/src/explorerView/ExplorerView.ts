@@ -1,15 +1,14 @@
-import { DashboardData } from '../models/DashboardData';
 import { Template } from '../commands/Template';
-import { DefaultFields, SETTINGS_CONTENT_FRONTMATTER_HIGHLIGHT, SETTING_AUTO_UPDATE_DATE, SETTING_CUSTOM_SCRIPTS, SETTING_SEO_CONTENT_MIN_LENGTH, SETTING_SEO_DESCRIPTION_FIELD, SETTING_SLUG_UPDATE_FILE_NAME, SETTING_PREVIEW_HOST, SETTING_DATE_FORMAT, SETTING_COMMA_SEPARATED_FIELDS, SETTING_TAXONOMY_CONTENT_TYPES, SETTING_PANEL_FREEFORM, SETTING_SEO_DESCRIPTION_LENGTH, SETTING_SEO_TITLE_LENGTH, SETTING_SLUG_PREFIX, SETTING_SLUG_SUFFIX, SETTING_TAXONOMY_CATEGORIES, SETTING_TAXONOMY_TAGS, SETTINGS_CONTENT_DRAFT_FIELD, SETTING_SEO_SLUG_LENGTH, SETTING_SITE_BASEURL, SETTING_TAXONOMY_CUSTOM } from '../constants';
+import { SETTINGS_CONTENT_FRONTMATTER_HIGHLIGHT, SETTING_AUTO_UPDATE_DATE, SETTING_CUSTOM_SCRIPTS, SETTING_SEO_CONTENT_MIN_LENGTH, SETTING_SEO_DESCRIPTION_FIELD, SETTING_SLUG_UPDATE_FILE_NAME, SETTING_PREVIEW_HOST, SETTING_DATE_FORMAT, SETTING_COMMA_SEPARATED_FIELDS, SETTING_TAXONOMY_CONTENT_TYPES, SETTING_PANEL_FREEFORM, SETTING_SEO_DESCRIPTION_LENGTH, SETTING_SEO_TITLE_LENGTH, SETTING_SLUG_PREFIX, SETTING_SLUG_SUFFIX, SETTING_TAXONOMY_CATEGORIES, SETTING_TAXONOMY_TAGS, SETTINGS_CONTENT_DRAFT_FIELD, SETTING_SEO_SLUG_LENGTH, SETTING_SITE_BASEURL, SETTING_TAXONOMY_CUSTOM } from '@frontmatter/common';
+import { DefaultFields } from '../constants';
 import * as os from 'os';
-import { PanelSettings, CustomScript as ICustomScript } from '../models/PanelSettings';
 import { CancellationToken, Disposable, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window, workspace, commands, env as vscodeEnv } from "vscode";
 import { ArticleHelper, Settings } from "../helpers";
 import { Command } from "../panelWebView/Command";
 import { CommandToCode } from '../panelWebView/CommandToCode';
 import { Article } from '../commands';
 import { TagType } from '../panelWebView/TagType';
-import { CustomTaxonomyData, DraftField, ScriptType, TaxonomyType } from '../models';
+import { CustomTaxonomyData, DraftField, ScriptType, TaxonomyType, PanelSettings, CustomScript as ICustomScript, DashboardData } from '@frontmatter/common';
 import { exec } from 'child_process';
 import { Content } from 'mdast';
 import { COMMAND_NAME, EXTENSION_BETA_ID, EXTENSION_ID } from '../constants/Extension';
