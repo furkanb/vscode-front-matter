@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Server, SettingsApi } from '@frontmatter/common';
+import { DashboardCommand, SettingsApi } from '@frontmatter/common';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ApiAtom, SettingsAtom } from '../state';
 
@@ -23,11 +23,25 @@ export default function useSettings() {
     }
   }, [apiUrl]);
 
+  const settingsUpdate = (event: MessageEvent<any>) => {
+    if (event.data.command === DashboardCommand.settingsUpdate) {
+      fetchSettings();
+    }
+  };
+
   useEffect(() => {
     if (apiUrl && !settings) {
       fetchSettings();
     }
   }, [apiUrl, settings]);
+
+  useEffect(() => {
+    window.addEventListener("message", settingsUpdate);
+
+    return () => {
+      window.removeEventListener("message", settingsUpdate);
+    }
+  }, []);
 
   return {
     loading,

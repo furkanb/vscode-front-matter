@@ -6,8 +6,7 @@ import { Notifications } from '../helpers/Notifications';
 import { extname, basename, parse, dirname } from 'path';
 import { COMMAND_NAME, DefaultFields } from '../constants';
 import { ExplorerView } from '../explorerView/ExplorerView';
-import { parseWinPath, DateHelper, SETTING_AUTO_UPDATE_DATE, SETTING_MODIFIED_FIELD, SETTING_SLUG_UPDATE_FILE_NAME, SETTING_TEMPLATES_PREFIX, CONFIG_KEY, SETTING_DATE_FORMAT, SETTING_SLUG_PREFIX, SETTING_SLUG_SUFFIX } from '@frontmatter/common';
-import { TaxonomyType, DashboardData } from "@frontmatter/common";
+import { parseWinPath, DateHelper, SETTING_AUTO_UPDATE_DATE, SETTING_MODIFIED_FIELD, SETTING_SLUG_UPDATE_FILE_NAME, SETTING_TEMPLATES_PREFIX, CONFIG_KEY, SETTING_DATE_FORMAT, SETTING_SLUG_PREFIX, SETTING_SLUG_SUFFIX, TaxonomyType, DashboardData } from '@frontmatter/common';
 
 
 export class Article {

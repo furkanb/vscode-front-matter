@@ -68,39 +68,7 @@ const config = [
       maxEntrypointSize: 400000,
       maxAssetSize: 400000
     }
-  },
-  // {
-  //   name: 'dashboardWebView',
-  //   target: 'web',
-  //   entry: './src/dashboardWebView/index.tsx',
-  //   output: {
-  //     path: path.resolve(__dirname, 'dist'),
-  //     filename: 'pages.js'
-  //   },
-  //   devtool: 'source-map',
-  //   resolve: {
-  //     extensions: ['.ts', '.js', '.tsx', '.jsx']
-  //   },
-  //   module: {
-  //     rules: [
-  //       {
-  //         test: /\.(ts|tsx)$/,
-  //         exclude: /node_modules/,
-  //         use: [{
-  //           loader: 'ts-loader'
-  //         }]
-  //       },
-  //       {
-  //         test: /\.css$/,
-  //         use: ['style-loader', 'css-loader', 'postcss-loader']
-  //       }
-  //     ]
-  //   },
-  //   performance: {
-  //     maxEntrypointSize: 400000,
-  //     maxAssetSize: 400000
-  //   }
-  // }
+  }
 ];
 
 module.exports = (env, argv) => {

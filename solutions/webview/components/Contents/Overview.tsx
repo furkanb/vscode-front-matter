@@ -43,6 +43,8 @@ export const Overview: React.FunctionComponent<IOverviewProps> = ({pages, settin
       groupKeys = groupKeys.sort((a, b) => { return parseInt(b) - parseInt(a) });
     }
 
+    console.log(groupedPages);
+
     return (
       <>
         {

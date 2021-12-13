@@ -50,7 +50,7 @@ export const Pagination: React.FunctionComponent<IPaginationProps> = ({}: React.
   }
 
   const mediaUpdate = (event: MessageEvent<any>) => {
-    if (event.type === DashboardCommand.mediaUpdate) {
+    if (event.data.command === DashboardCommand.mediaUpdate) {
       setLoading(true);
 
       // UPDATE MEDIA

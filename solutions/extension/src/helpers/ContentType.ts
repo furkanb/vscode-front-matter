@@ -37,12 +37,12 @@ export class ContentType {
 
     if (draftField) {
       fieldValue = data[draftField.name];
-    } else if (draftSetting && data && data[draftSetting.name]) {
+    } else if (draftSetting && data && typeof data[draftSetting.name] !== "undefined") {
       fieldValue = data[draftSetting.name];
     }
 
-    if (draftSetting && fieldValue) {
-      if (draftSetting.type === "boolean") {
+    if (fieldValue !== null && fieldValue !== undefined) {
+      if (draftSetting?.type === "boolean") {
         return fieldValue ? "Draft" : "Published";
       } else {
         return fieldValue;

@@ -48,7 +48,7 @@ export class LocalClientSide {
             window.addEventListener("message", (e) => {
               const data = e.data;
 
-              if (${!!isProduction} && data.type !== "keydown") {
+              if (${!isProduction} && data.type !== "keydown") {
                 console.log(data);
               }
 

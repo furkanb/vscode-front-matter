@@ -97,7 +97,7 @@ export class Settings {
   /**
    * Retrieve a setting from global and local config
    */
-  public static get<T>(name: string, merging: boolean = false): T | undefined{
+  public static get<T>(name: string, merging: boolean = false): T | undefined {
     const configInpection = Settings.config.inspect<T>(name);
 
     let setting = undefined;
@@ -117,7 +117,9 @@ export class Settings {
     }
 
     if (setting === undefined) {
-      setting = Settings.config.get(name);
+      if (Settings.config.has(name)) {
+        setting = Settings.config.get<string>(name);
+      }
     }
 
     return setting;

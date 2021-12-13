@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect } from 'react';
 import { Contents } from '../components/Contents/Contents';
 import { Spinner } from '../components/Spinner';
 import { WelcomeScreen } from '../components/WelcomeScreen';
@@ -15,12 +14,6 @@ const Home: NextPage = () => {
   const { loading, settings } = useSettings();
   useDarkMode();
   useSettings();
-
-  useEffect(() => {
-    if (apiPort) {
-      
-    }
-  }, [apiPort]);
 
   if (!apiPort || !settings || loading) {
     return <Spinner />;
@@ -43,7 +36,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={`h-full w-full`}>
-        <Contents loading={loading} />
+        <Contents />
       </main>
     </div>
   )
