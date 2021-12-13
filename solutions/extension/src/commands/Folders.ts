@@ -3,7 +3,7 @@ import { SETTINGS_CONTENT_PAGE_FOLDERS, SETTINGS_CONTENT_STATIC_FOLDER } from '.
 import { commands, Uri, workspace, window } from "vscode";
 import { basename, join } from "path";
 import { ContentFolder, FileInfo, FolderInfo } from "../models";
-import uniqBy = require("lodash.uniqby");
+import uniqBy from "lodash.uniqby";
 import { Template } from "./Template";
 import { Notifications } from "../helpers/Notifications";
 import { Settings } from "../helpers";

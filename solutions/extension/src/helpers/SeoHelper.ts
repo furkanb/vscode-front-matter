@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { ArticleHelper } from '.';
-import matter = require('gray-matter');
+import matter from "gray-matter";
 
 export class SeoHelper {
 

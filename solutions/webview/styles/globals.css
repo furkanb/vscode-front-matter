@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html,
-body
+body,
 div#__next {
   @apply h-full w-full;
 }

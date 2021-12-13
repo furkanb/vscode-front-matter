@@ -11,7 +11,6 @@ import { Article } from '../commands';
 import { TagType } from '../panelWebView/TagType';
 import { CustomTaxonomyData, DraftField, ScriptType, TaxonomyType } from '../models';
 import { exec } from 'child_process';
-import { fromMarkdown } from 'mdast-util-from-markdown';
 import { Content } from 'mdast';
 import { COMMAND_NAME, EXTENSION_BETA_ID, EXTENSION_ID } from '../constants/Extension';
 import { Folders } from '../commands/Folders';
@@ -22,6 +21,7 @@ import { Extension } from '../helpers/Extension';
 import { Dashboard } from '../commands/Dashboard';
 import { ImageHelper } from '../helpers/ImageHelper';
 import { CustomScript } from '../helpers/CustomScript';
+import { fromMarkdown } from 'mdast-util-from-markdown';
 import { Link, Parent } from 'mdast-util-from-markdown/lib';
 
 const FILE_LIMIT = 10;

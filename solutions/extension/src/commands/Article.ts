@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import { TaxonomyType } from "../models";
 import { format } from "date-fns";
 import { ArticleHelper, Settings, SlugHelper } from '../helpers';
-import matter = require('gray-matter');
+import matter from "gray-matter";
 import { Notifications } from '../helpers/Notifications';
 import { extname, basename, parse, dirname } from 'path';
 import { COMMAND_NAME, DefaultFields } from '../constants';

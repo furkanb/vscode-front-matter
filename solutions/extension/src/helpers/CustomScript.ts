@@ -3,7 +3,7 @@ import { window, env as vscodeEnv, ProgressLocation } from 'vscode';
 import { ArticleHelper } from '.';
 import { Folders } from '../commands/Folders';
 import { exec } from 'child_process';
-import matter = require('gray-matter');
+import matter from "gray-matter";
 import * as os from 'os';
 import { join } from 'path';
 import { Notifications } from './Notifications';

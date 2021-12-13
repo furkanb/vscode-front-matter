@@ -1,7 +1,8 @@
-import { DEFAULT_CONTENT_TYPE, DEFAULT_CONTENT_TYPE_NAME } from './../constants/ContentType';
 import * as vscode from 'vscode';
-import * as matter from "gray-matter";
 import * as fs from "fs";
+import matter from "gray-matter";
+import sanitize from '../helpers/Sanitize';
+import { DEFAULT_CONTENT_TYPE, DEFAULT_CONTENT_TYPE_NAME } from './../constants/ContentType';
 import { DefaultFields, SETTING_COMMA_SEPARATED_FIELDS, SETTING_DATE_FIELD, SETTING_DATE_FORMAT, SETTING_INDENT_ARRAY, SETTING_REMOVE_QUOTES, SETTING_TAXONOMY_CONTENT_TYPES, SETTING_TEMPLATES_PREFIX } from '../constants';
 import { DumpOptions } from 'js-yaml';
 import { TomlEngine, getFmLanguage, getFormatOpts } from './TomlEngine';
@@ -11,7 +12,6 @@ import { Notifications } from './Notifications';
 import { Article } from '../commands';
 import { basename, join } from 'path';
 import { EditorHelper } from '@estruyf/vscode';
-import sanitize from '../helpers/Sanitize';
 import { existsSync, mkdirSync } from 'fs';
 import { ContentType } from '../models';
 import { DateHelper } from './DateHelper';

@@ -1,6 +1,7 @@
+
+import * as vscode from 'vscode';
 import { ContentType } from './helpers/ContentType';
 import { Dashboard } from './commands/Dashboard';
-import * as vscode from 'vscode';
 import { Article, Settings, StatusListener } from './commands';
 import { Folders } from './commands/Folders';
 import { Preview } from './commands/Preview';

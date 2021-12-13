@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import * as matter from 'gray-matter';
 import * as fs from 'fs';
+import matter from 'gray-matter';
 import { TaxonomyType } from "../models";
 import { SETTING_TAXONOMY_TAGS, SETTING_TAXONOMY_CATEGORIES, EXTENSION_NAME } from '../constants';
 import { ArticleHelper, Settings as SettingsHelper, FilesHelper } from '../helpers';

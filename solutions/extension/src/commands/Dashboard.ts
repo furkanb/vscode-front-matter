@@ -1,9 +1,10 @@
+import { Express } from "express";
 import { SETTINGS_CONTENT_STATIC_FOLDER, SETTING_DATE_FIELD, SETTING_SEO_DESCRIPTION_FIELD, SETTINGS_DASHBOARD_OPENONSTART, SETTINGS_DASHBOARD_MEDIA_SNIPPET, SETTING_TAXONOMY_CONTENT_TYPES, DefaultFields, HOME_PAGE_NAVIGATION_ID, ExtensionState, COMMAND_NAME, SETTINGS_FRAMEWORK_ID, SETTINGS_CONTENT_DRAFT_FIELD, SETTINGS_CONTENT_SORTING, CONTEXT, SETTING_CUSTOM_SCRIPTS, SETTINGS_CONTENT_SORTING_DEFAULT, SETTINGS_MEDIA_SORTING_DEFAULT } from '../constants';
 import { ArticleHelper } from './../helpers/ArticleHelper';
 import { basename, dirname, extname, join, parse } from "path";
 import { existsSync, readdirSync, statSync, unlinkSync, writeFileSync } from "fs";
 import { commands, Uri, ViewColumn, Webview, WebviewPanel, window, workspace, env, Position } from "vscode";
-import { Settings as SettingsHelper } from '../helpers';
+import { LocalServer, Settings as SettingsHelper } from '../helpers';
 import { CustomScript as ICustomScript, DraftField, Framework, ScriptType, SortingSetting, SortOrder, SortType, TaxonomyType } from '../models';
 import { Folders } from './Folders';
 import { DashboardCommand } from '../dashboardWebView/DashboardCommand';
@@ -14,7 +15,6 @@ import { Template } from './Template';
 import { Notifications } from '../helpers/Notifications';
 import { Settings } from '../dashboardWebView/models/Settings';
 import { Extension } from '../helpers/Extension';
-import { ViewType } from '../dashboardWebView/state';
 import { EditorHelper, WebviewHelper } from '@estruyf/vscode';
 import { MediaInfo, MediaPaths } from './../models/MediaPaths';
 import { decodeBase64Image } from '../helpers/decodeBase64Image';
@@ -29,6 +29,16 @@ import { SortingOption } from '../dashboardWebView/models';
 import { Sorting } from '../helpers/Sorting';
 import imageSize from 'image-size';
 import { CustomScript } from '../helpers/CustomScript';
+import { WebViewHelper } from '../helpers/WebviewHelper';
+import PagesApi from "../api/PagesApi";
+import MediaApi from "../api/MediaApi";
+import SettingsApi from "../api/SettingsApi";
+import ExtensionApi from "../api/ExtensionApi";
+
+export enum ViewType {
+  Grid = 1,
+  List
+}
 
 export class Dashboard {
   private static webview: WebviewPanel | null = null;
@@ -95,6 +105,15 @@ export class Dashboard {
   public static async create() {
     const extensionUri = Extension.getInstance().extensionPath;
 
+    if (!LocalServer.isRunning()) {
+      await LocalServer.start((app: Express) => {
+        app.use('/api/pages', PagesApi);
+        app.use('/api/media', MediaApi);
+        app.use('/api/settings', SettingsApi);
+        app.use('/api/extension', ExtensionApi);
+      });
+    }
+
     // Create the preview webview
     Dashboard.webview = window.createWebviewPanel(
       'frontMatterDashboard',
@@ -112,7 +131,7 @@ export class Dashboard {
       light: Uri.file(join(extensionUri.fsPath, 'assets/icons/frontmatter-short-light.svg'))
     };
 
-    Dashboard.webview.webview.html = Dashboard.getWebviewContent(Dashboard.webview.webview, extensionUri);
+    Dashboard.webview.webview.html = WebViewHelper.getContents(LocalServer.sitePort, "dashboard");
 
     Dashboard.webview.onDidChangeViewState(async () => {
       if (!this.webview?.visible) {
@@ -130,6 +149,7 @@ export class Dashboard {
       const panel = ExplorerView.getInstance(extensionUri);
       panel.getMediaSelection();
       await commands.executeCommand('setContext', CONTEXT.isDashboardOpen, false);
+      LocalServer.stop();
     });
 
     SettingsHelper.onConfigChange((global?: any) => {
@@ -711,38 +731,5 @@ export class Dashboard {
     Dashboard.mediaLib.updateFilename(file, filename);
 
     Dashboard.getMedia(page || 0, folder || "");
-  }
-  
-  /**
-   * Retrieve the webview HTML contents
-   * @param webView 
-   */
-  private static getWebviewContent(webView: Webview, extensionPath: Uri): string {
-    const scriptUri = webView.asWebviewUri(Uri.joinPath(extensionPath, 'dist', 'pages.js'));
-
-    const nonce = WebviewHelper.getNonce();
-
-    const ext = Extension.getInstance();
-    const version = ext.getVersion();
-    const isBeta = ext.isBetaVersion();
-
-    return `
-      <!DOCTYPE html>
-      <html lang="en" style="width:100%;height:100%;margin:0;padding:0;">
-      <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${`vscode-file://vscode-app`} ${webView.cspSource} https://api.visitorbadge.io 'self' 'unsafe-inline'; script-src 'nonce-${nonce}'; style-src ${webView.cspSource} 'self' 'unsafe-inline'; font-src ${webView.cspSource}; connect-src https://o1022172.ingest.sentry.io">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>Front Matter Dashboard</title>
-      </head>
-      <body style="width:100%;height:100%;margin:0;padding:0;overflow:hidden" class="bg-gray-100 text-vulcan-500 dark:bg-vulcan-500 dark:text-whisper-500">
-        <div id="app" data-environment="${isBeta ? "BETA" : "main"}" data-version="${version.usedVersion}" style="width:100%;height:100%;margin:0;padding:0;" ${version.usedVersion ? "" : `data-showWelcome="true"`}></div>
-
-        <img style="display:none" src="https://api.visitorbadge.io/api/combined?user=estruyf&repo=frontmatter-usage&countColor=%23263759&slug=${`dashboard-${version.installedVersion}`}" alt="Daily usage" />
-
-        <script nonce="${nonce}" src="${scriptUri}"></script>
-      </body>
-      </html>
-    `;
   }
 }
