@@ -1,9 +1,9 @@
-import { DashboardCommand, MediaApi } from '@frontmatter/common';
+import { DashboardCommand } from '@frontmatter/common';
 import { RefreshIcon } from '@heroicons/react/outline';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import useExtension from '../../hooks/useExtension';
+import useMedia from '../../hooks/useMedia';
 import { LoadingAtom, MediaTotalSelector, PageAtom, SelectedMediaFolderSelector, SortingSelector } from '../../state';
 import { FolderCreation } from './FolderCreation';
 import { LIMIT } from './Media';
@@ -17,7 +17,7 @@ export const Pagination: React.FunctionComponent<IPaginationProps> = ({}: React.
   const totalMedia = useRecoilValue(MediaTotalSelector);
   const [ , setLoading ] = useRecoilState(LoadingAtom);
   const [ page, setPage ] = useRecoilState(PageAtom);
-  const { post } = useExtension();
+  const { getMedia, refreshMedia } = useMedia(false);
   
   const totalPages = Math.ceil(totalMedia / LIMIT) - 1;
 
@@ -44,9 +44,9 @@ export const Pagination: React.FunctionComponent<IPaginationProps> = ({}: React.
     return buttons;
   };
 
-  const refresh = () => {
+  const refresh = async () => {
     setPage(0);
-    post(MediaApi.refresh, { folder: selectedFolder });
+    refreshMedia(selectedFolder);
   }
 
   const mediaUpdate = (event: MessageEvent<any>) => {
@@ -54,41 +54,23 @@ export const Pagination: React.FunctionComponent<IPaginationProps> = ({}: React.
       setLoading(true);
 
       // UPDATE MEDIA
-      post(MediaApi.root, {
-        page,
-        folder: selectedFolder || '',
-        sorting: crntSorting
-      });
+      getMedia(page, selectedFolder || '', crntSorting);
     }
   }
 
   useEffect(() => {
     setLoading(true);
-    post(MediaApi.root, {
-      page,
-      folder: selectedFolder || '',
-      sorting: crntSorting
-    });
-  }, [page]);
+
+    getMedia(page, selectedFolder || '', crntSorting);
+  }, [page, crntSorting]);
 
   useEffect(() => {
     setLoading(true);
-    post(MediaApi.root, {
-      page: 0,
-      folder: selectedFolder || '',
-      sorting: crntSorting
-    });
+
+    getMedia(0, selectedFolder || '', crntSorting);
+
     setPage(0);
   }, [selectedFolder]);
-
-  useEffect(() => {
-    setLoading(true);
-    post(MediaApi.root, {
-      page,
-      folder: selectedFolder || '',
-      sorting: crntSorting
-    });
-  }, [crntSorting]);
 
   useEffect(() => {
     window.addEventListener("message", mediaUpdate);

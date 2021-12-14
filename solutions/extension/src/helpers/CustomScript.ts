@@ -105,7 +105,6 @@ export class CustomScript {
   
           CustomScript.showOutput(stdout, script);
   
-          // TODO: Check the pagination.tsx file if it updates media
           Dashboard.postWebviewMessage({ 
             command: DashboardCommand.mediaUpdate
           });

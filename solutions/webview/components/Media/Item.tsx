@@ -133,7 +133,7 @@ export const Item: React.FunctionComponent<IItemProps> = ({media}: React.PropsWi
   };
 
   const openLightbox = () => {
-    setLightbox(media.vsPath || "");
+    setLightbox(media.localPath || "");
   };
 
   const updateMetadata = () => {
@@ -198,7 +198,7 @@ export const Item: React.FunctionComponent<IItemProps> = ({media}: React.PropsWi
             <PhotographIcon className={`h-1/2 text-gray-300 dark:text-vulcan-200`} />
           </div>
           <div className={`absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center`}>
-            <img src={media.vsPath} alt={basename(media.fsPath)} className="mx-auto object-cover" />
+            <img src={media.localPath} alt={basename(media.fsPath)} className="mx-auto object-cover" />
           </div>
         </button>
         <div className={`relative py-4 pl-4 pr-12`}>

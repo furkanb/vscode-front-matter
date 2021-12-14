@@ -1,3 +1,4 @@
+import { urlJoin } from 'url-join-ts';
 import express, { Express } from "express";
 import cors from "cors";
 import { Extension } from "./Extension";
@@ -70,5 +71,17 @@ export class LocalServer {
       LocalServer.apiPort = null;
       LocalServer.sitePort = null;
     }
+  }
+
+  public static getPath(filePath: string) {
+    const wsFolder = Folders.getWorkspaceFolder();
+    const isProduction = Extension.getInstance().isProductionMode;
+    const localSiteUrl = isProduction ? `http://localhost:${LocalServer.sitePort}` : `http://localhost:${process.env.API_DEV_PORT || "3001"}`;
+
+    if (wsFolder) {
+      filePath = filePath.replace(wsFolder.fsPath, "");
+    }
+
+    return urlJoin(localSiteUrl, filePath);
   }
 }

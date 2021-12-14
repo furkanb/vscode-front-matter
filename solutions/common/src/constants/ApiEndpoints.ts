@@ -9,11 +9,11 @@ export const SettingsApi = {
 };
 
 export const ExtensionApi = {
-  root: 'api/extensions',
-  init: 'api/extensions/init',
-  reload: 'api/extensions/reload',
-  setState: 'api/extensions/setState',
-  copyToClipboard: 'api/extensions/copyToClipboard',
+  root: 'api/extension',
+  init: 'api/extension/init',
+  reload: 'api/extension/reload',
+  setState: 'api/extension/setState',
+  copyToClipboard: 'api/extension/copyToClipboard',
 };
 
 export const PagesApi = {

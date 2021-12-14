@@ -17,18 +17,19 @@ router.get('/', async (req, res) => {
   return res.send('Hello from pages API!');
 });
 
-router.get('init', async (req, res) => {
+router.get('/init', async (req, res) => {
   await commands.executeCommand(COMMAND_NAME.init);
   return res.send('Init done!');
 });
 
-router.get('reload', async (req, res) => {
+router.get('/reload', async (req, res) => {
   Dashboard.reload();
   return res.send('Reload done!');
 });
 
-router.post('setState', bodyParser.json(), async (req, res) => {
+router.post('/setState', bodyParser.json(), async (req, res) => {
   const { key, value } = req.body;
+
   if (key && value) {
     Extension.getInstance().setState(key, value, "workspace");
   }
@@ -36,7 +37,7 @@ router.post('setState', bodyParser.json(), async (req, res) => {
   return res.sendStatus(200);
 });
 
-router.post('copyToClipboard', bodyParser.json(), async (req, res) => {
+router.post('/copyToClipboard', bodyParser.json(), async (req, res) => {
   const { data } = req.body;
   
   if (data) {

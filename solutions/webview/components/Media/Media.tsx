@@ -1,7 +1,7 @@
 import { UploadIcon } from '@heroicons/react/outline';
 import * as React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { LoadingAtom, MediaFoldersAtom, MediaTotalAtom, SelectedMediaFolderAtom, SettingsSelector, ViewDataSelector } from '../../state';
+import { DashboardViewAtom, LoadingAtom, MediaAtom, MediaFoldersAtom, SelectedMediaFolderAtom, SettingsSelector, SortingSelector, ViewDataSelector } from '../../state';
 import { Header } from '../Header';
 import { Spinner } from '../Spinner';
 import { SponsorMsg } from '../Footer/SponsorMsg';
@@ -9,10 +9,11 @@ import { Item } from './Item';
 import { Lightbox } from './Lightbox';
 import { List } from './List';
 import { useDropzone } from 'react-dropzone'
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { FolderItem } from './FolderItem';
-import { MediaInfo, MediaPaths } from '@frontmatter/common';
+import { DashboardViewType } from '@frontmatter/common';
 import { FrontMatterIcon } from '../Icons/FrontMatterIcon';
+import useMedia from '../../hooks/useMedia';
 
 export interface IMediaProps {}
 
@@ -20,12 +21,13 @@ export const LIMIT = 16;
 
 export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWithChildren<IMediaProps>) => {
   const settings = useRecoilValue(SettingsSelector);
-  const [ selectedFolder, setSelectedFolder ] = useRecoilState(SelectedMediaFolderAtom);
-  const [ media, setMedia ] = React.useState<MediaInfo[]>([]);
-  const [ , setTotal ] = useRecoilState(MediaTotalAtom);
-  const [ folders, setFolders ] = useRecoilState(MediaFoldersAtom);
-  const [ loading, setLoading ] = useRecoilState(LoadingAtom);
+  const selectedFolder = useRecoilValue(SelectedMediaFolderAtom);
+  const media = useRecoilValue(MediaAtom);
+  const folders = useRecoilValue(MediaFoldersAtom);
+  const loading = useRecoilValue(LoadingAtom);
   const viewData = useRecoilValue(ViewDataSelector);
+  const [ , setView ] = useRecoilState(DashboardViewAtom);
+  useMedia();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.forEach((file) => {
@@ -48,32 +50,17 @@ export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWi
     onDrop,
     accept: 'image/*'
   });
-
-  // const messageListener = (message: MessageEvent<EventData<MediaPaths | { key: string, value: any }>>) => {
-  //   if (message.data.command === DashboardCommand.media) {
-  //     const data: MediaPaths = message.data.data as MediaPaths;
-  //     setLoading(false);
-  //     setMedia(data.media);
-  //     setTotal(data.total);
-  //     setFolders(data.folders);
-  //     setSelectedFolder(data.selectedFolder);
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   Messenger.listen<MediaPaths>(messageListener);
-
-  //   return () => {
-  //     Messenger.unlisten(messageListener);
-  //   }
-  // }, ['']);
   
+  useEffect(() => {
+    setView(DashboardViewType.Media);
+  }, []);
+
   return (
     <main className={`h-full w-full`}>
       <div className="flex flex-col h-full overflow-auto">
         <Header settings={settings} />
 
-        <div className="w-full flex-grow max-w-7xl mx-auto py-6 px-4" {...getRootProps()}>
+        <div id="drag-drop" className="w-full flex-grow max-w-7xl mx-auto py-6 px-4" {...getRootProps()}>
 
           {
             viewData?.data?.filePath && (
@@ -96,7 +83,7 @@ export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWi
           }
 
           {
-            (media.length === 0 && folders.length === 0 && !loading) && (
+            (media && media.length === 0 && folders.length === 0 && !loading) && (
               <div className={`flex items-center justify-center h-full`}>
                 <div className={`max-w-xl text-center`}>
                   <FrontMatterIcon className={`text-vulcan-300 dark:text-whisper-800 h-32 mx-auto opacity-90 mb-8`} />
@@ -121,13 +108,17 @@ export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWi
             )
           }
 
-          <List>
-            {
-              media.map((file) => (
-                <Item key={file.fsPath} media={file} />
-              ))
-            }
-          </List>
+          {
+            media && media.length > 0 && (
+              <List>
+                {
+                  media.map((file) => (
+                    <Item key={file.fsPath} media={file} />
+                  ))
+                }
+              </List>
+            )
+          }
         </div>
 
         {

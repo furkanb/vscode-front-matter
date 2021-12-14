@@ -4,15 +4,13 @@ import { join } from "path";
 import { existsSync, writeFileSync } from "fs";
 import { commands, Uri, ViewColumn, WebviewPanel, window } from "vscode";
 import { LocalServer, Settings as SettingsHelper } from '../helpers';
-import { CustomScript as ICustomScript, DraftField, ScriptType, SortingSetting, TaxonomyType, DashboardCommand, DashboardMessage, Settings, DashboardData, SortingOption, SETTINGS_CONTENT_STATIC_FOLDER, SETTINGS_DASHBOARD_OPENONSTART, SETTINGS_DASHBOARD_MEDIA_SNIPPET, SETTING_TAXONOMY_CONTENT_TYPES, ExtensionState, SETTINGS_FRAMEWORK_ID, SETTINGS_CONTENT_DRAFT_FIELD, SETTINGS_CONTENT_SORTING, SETTING_CUSTOM_SCRIPTS, SETTINGS_CONTENT_SORTING_DEFAULT, SETTINGS_MEDIA_SORTING_DEFAULT, ContentsViewType } from '@frontmatter/common';
+import { DashboardCommand, DashboardMessage, DashboardData, SETTINGS_CONTENT_STATIC_FOLDER, SETTINGS_DASHBOARD_OPENONSTART, ExtensionState } from '@frontmatter/common';
 import { Folders } from './Folders';
-import { Template } from './Template';
 import { Notifications } from '../helpers/Notifications';
 import { Extension } from '../helpers/Extension';
 import { decodeBase64Image } from '../helpers/decodeBase64Image';
 import { ExplorerView } from '../explorerView/ExplorerView';
 import { MediaLibrary } from '../helpers/MediaLibrary';
-import { FrameworkDetector } from '../helpers/FrameworkDetector';
 import { LocalClientSide } from '../helpers/LocalClientSide';
 import PagesApi from "../api/PagesApi";
 import MediaApi from "../api/MediaApi";
@@ -25,7 +23,6 @@ export class Dashboard {
   private static isDisposed: boolean = true;
   private static timers: { [folder: string]: any } = {};
   private static _viewData: DashboardData | undefined;
-  private static mediaLib: MediaLibrary;
 
   public static get viewData(): DashboardData | undefined {
     return Dashboard._viewData;
@@ -45,7 +42,7 @@ export class Dashboard {
    * Open or reveal the dashboard
    */
   public static async open(data?: DashboardData) {
-    this.mediaLib = MediaLibrary.getInstance();
+    MediaLibrary.getInstance();
     
     Dashboard._viewData = data;
 
@@ -103,6 +100,8 @@ export class Dashboard {
       });
     }
 
+    console.log(Extension.getInstance().extensionPath.fsPath)
+
     // Create the preview webview
     Dashboard.webview = window.createWebviewPanel(
       'frontMatterDashboard',
@@ -121,7 +120,7 @@ export class Dashboard {
       light: Uri.file(join(extensionUri.fsPath, 'assets/icons/frontmatter-short-light.svg'))
     };
 
-    Dashboard.webview.webview.html = LocalClientSide.getContents(LocalServer.sitePort, "dashboard");
+    Dashboard.webview.webview.html = await LocalClientSide.getContents(LocalServer.sitePort, "dashboard");
 
     Dashboard.webview.onDidChangeViewState(async () => {
       if (!this.webview?.visible) {

@@ -4,7 +4,7 @@ import { existsSync, readdirSync, statSync } from "fs";
 import imageSize from "image-size";
 import { basename, dirname, extname, join, parse } from "path";
 import { commands, Position, Uri, window, workspace } from "vscode";
-import { Extension, MediaLibrary, Settings } from ".";
+import { Extension, LocalServer, MediaLibrary, Settings } from ".";
 import { Dashboard } from "../commands/Dashboard";
 import { Folders } from "../commands/Folders";
 import { ExplorerView } from "../explorerView/ExplorerView";
@@ -247,6 +247,7 @@ export class MediaHelpers {
     }).map((file) => ({
       fsPath: file.fsPath,
       vsPath: Dashboard.getWebview()?.asWebviewUri(file).toString(),
+      localPath: LocalServer.getPath(file.fsPath),
       stats: undefined
     } as MediaInfo));
   }

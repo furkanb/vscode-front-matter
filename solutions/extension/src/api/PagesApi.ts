@@ -54,8 +54,6 @@ router.post('/open', bodyParser.json(), async (req, res) => {
  */
 const getPages = async () => {
   const wsFolder = Folders.getWorkspaceFolder();
-  const isProduction = Extension.getInstance().isProductionMode;
-  const imgSrcUrl = isProduction ? `http://localhost:${LocalServer.sitePort}` : `http://localhost:${process.env.API_DEV_PORT || "3001"}`;
 
   const descriptionField = Settings.get(SETTING_SEO_DESCRIPTION_FIELD) as string || DefaultFields.Description;
   const dateField = Settings.get(SETTING_DATE_FIELD) as string || DefaultFields.PublishingDate;
@@ -109,13 +107,13 @@ const getPages = async () => {
 
                   let previewUri = null;
                   if (existsSync(staticPath)) {
-                    previewUri = staticPath.replace(wsFolder.fsPath, "");
+                    previewUri = staticPath;
                   } else if (existsSync(contentFolderPath)) {
-                    previewUri = contentFolderPath.replace(wsFolder.fsPath, "");
+                    previewUri = contentFolderPath;
                   }
 
                   if (previewUri) {
-                    page[previewField] = `${imgSrcUrl}${previewUri}`;
+                    page[previewField] = LocalServer.getPath(previewUri);
                   } else {
                     page[previewField] = "";
                   }
