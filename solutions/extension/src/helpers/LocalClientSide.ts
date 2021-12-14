@@ -2,6 +2,7 @@ import { Dashboard } from './../commands/Dashboard';
 import { LocalServer } from ".";
 import { Extension } from "./Extension";
 import { env, Uri } from "vscode";
+import { DashboardCommand } from '@frontmatter/common';
 
 
 export class LocalClientSide {
@@ -45,6 +46,87 @@ export class LocalClientSide {
             (() => {
               const vscode = acquireVsCodeApi();
               let iframe = document.querySelector('iframe#main__frame');
+
+              window.addEventListener('dragenter', (ev) => {
+                ev.preventDefault();
+                document.querySelector('iframe#main__frame').contentWindow.postMessage({
+                  type: 'message',
+                  receiver: 'webview',
+                  command: '${DashboardCommand.dragEnter}'
+                }, '*'); 
+              });
+
+              window.addEventListener('dragover', (ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+                if (ev?.dataTransfer?.files?.length > 0) {
+                  try {
+                    ev.dataTransfer.dropEffect = 'copy';
+                  } catch {}
+                }
+              });
+
+              window.addEventListener('dragleave', (ev) => {
+                document.querySelector('iframe#main__frame').contentWindow.postMessage({
+                  type: 'message',
+                  receiver: 'webview',
+                  command: '${DashboardCommand.dragLeave}'
+                }, '*'); 
+              });
+
+              window.addEventListener('drop', (ev) => {
+                ev.preventDefault();
+
+                const items = [];
+                if (ev.dataTransfer.items) {
+                  // Use DataTransferItemList interface to access the file(s)
+                  for (let i = 0; i < ev.dataTransfer.items.length; i++) {
+                    const file = ev.dataTransfer.items[i];
+
+                    if (!file.type.match('image/*')) {
+                      continue;
+                    }
+
+                    // If dropped items aren't files, reject them
+                    if (file.kind === 'file') {
+                      const file = ev.dataTransfer.items[i].getAsFile();
+                      items.push(file);
+                    }
+                  }
+                } else {
+                  // Use DataTransfer interface to access the file(s)
+                  for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+                    const file = file[' + i + '];
+                    
+                    if (!file.type.match('image/*')) {
+                      continue;
+                    }
+
+                    items.push();
+                  }
+                }
+                for (const item of items) {
+                  const reader = new FileReader();
+                  
+                  reader.onload = () => {
+                    const contents = reader.result;
+                    
+                    document.querySelector('iframe#main__frame').contentWindow.postMessage({
+                      type: 'message',
+                      receiver: 'webview',
+                      command: '${DashboardCommand.dragDrop}',
+                      message: {
+                        item: {
+                          fileName: item.name,
+                          contents
+                        }
+                      }
+                    }, '*'); 
+                  };
+            
+                  reader.readAsDataURL(item)
+                }
+              }, false);
 
               window.onfocus = iframe.onload = function() {
                 setTimeout(function() {

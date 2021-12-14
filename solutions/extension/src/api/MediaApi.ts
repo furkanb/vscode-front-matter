@@ -3,7 +3,6 @@ import express from "express";
 import { unlinkSync } from "fs";
 import { basename } from "path";
 import { commands } from "vscode";
-import { Dashboard } from "../commands/Dashboard";
 import { COMMAND_NAME } from "../constants";
 import { CustomScript, MediaLibrary, Notifications } from "../helpers";
 import { MediaHelpers } from "../helpers/MediaHelpers";
@@ -27,6 +26,11 @@ router.post('/', bodyParser.json(), async (req, res) => {
   return res.json(mediaFiles);
 });
 
+router.post('/upload', bodyParser.json({ limit: '15mb' }), async (req, res) => {
+  const data = req.body;
+  await MediaHelpers.addFile(data);
+  return res.sendStatus(201)
+});
 
 router.post('/refresh', bodyParser.json(), async (req, res) => {
   const { folder } = req.body;
@@ -34,7 +38,6 @@ router.post('/refresh', bodyParser.json(), async (req, res) => {
   const mediaFiles = await MediaHelpers.getFiles(0, folder);
   return res.json(mediaFiles);
 });
-
 
 router.post('/createMediaFolder', bodyParser.json(), async (req, res) => {
   const { path } = req.body;

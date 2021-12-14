@@ -26,6 +26,7 @@ export const PagesApi = {
 
 export const MediaApi = {
   root: 'api/media',
+  upload: 'api/media/upload',
   createMediaFolder: 'api/media/createMediaFolder',
   runCustomScript: 'api/media/runCustomScript',
   updateMetadata: 'api/media/updateMetadata',

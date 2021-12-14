@@ -1,10 +1,10 @@
 import { EditorHelper } from "@estruyf/vscode";
 import { ExtensionState, HOME_PAGE_NAVIGATION_ID, MediaInfo, MediaPaths, parseWinPath, SETTINGS_CONTENT_STATIC_FOLDER, Sorting, SortingOption, SortOrder, SortType } from "@frontmatter/common";
-import { existsSync, readdirSync, statSync } from "fs";
+import { existsSync, readdirSync, statSync, writeFileSync } from "fs";
 import imageSize from "image-size";
 import { basename, dirname, extname, join, parse } from "path";
 import { commands, Position, Uri, window, workspace } from "vscode";
-import { Extension, LocalServer, MediaLibrary, Settings } from ".";
+import { decodeBase64Image, Extension, LocalServer, MediaLibrary, Notifications, Settings } from ".";
 import { Dashboard } from "../commands/Dashboard";
 import { Folders } from "../commands/Folders";
 import { ExplorerView } from "../explorerView/ExplorerView";
@@ -220,6 +220,43 @@ export class MediaHelpers {
       } else {
         panel.getMediaSelection();
         panel.updateMetadata({field: fieldName, value: image });
+      }
+    }
+  }
+
+  /**
+   * Add a file to the media library
+   * @param param0 
+   * @returns 
+   */
+  public static async addFile({fileName, contents, folder}: { fileName: string; contents: string; folder: string | null }) {
+    if (fileName && contents) {
+      const wsFolder = Folders.getWorkspaceFolder();
+      const staticFolder = Settings.get<string>(SETTINGS_CONTENT_STATIC_FOLDER);
+      const wsPath = wsFolder ? wsFolder.fsPath : "";
+      let absFolderPath = join(wsPath, staticFolder || "");
+
+      if (folder) {
+        absFolderPath = folder;
+      }
+
+      if (!existsSync(absFolderPath)) {
+        absFolderPath = join(wsPath, folder || "");
+      }
+
+      if (!existsSync(absFolderPath)) {
+        Notifications.error(`We couldn't find your selected folder.`);
+        return;
+      }
+
+      const staticPath = join(absFolderPath, fileName);
+      const imgData = decodeBase64Image(contents);
+
+      if (imgData) {
+        writeFileSync(staticPath, imgData.data);
+        Notifications.info(`File ${fileName} uploaded to: ${folder}`);
+      } else {
+        Notifications.error(`Something went wrong uploading ${fileName}`);
       }
     }
   }

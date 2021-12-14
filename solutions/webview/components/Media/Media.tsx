@@ -8,18 +8,21 @@ import { SponsorMsg } from '../Footer/SponsorMsg';
 import { Item } from './Item';
 import { Lightbox } from './Lightbox';
 import { List } from './List';
-import { useDropzone } from 'react-dropzone'
 import { useCallback, useEffect } from 'react';
 import { FolderItem } from './FolderItem';
-import { DashboardViewType } from '@frontmatter/common';
+import { DashboardCommand, DashboardViewType, MediaApi } from '@frontmatter/common';
 import { FrontMatterIcon } from '../Icons/FrontMatterIcon';
 import useMedia from '../../hooks/useMedia';
+import useExtension from '../../hooks/useExtension';
+import { useDebounce } from '../../hooks/useDebounce';
 
 export interface IMediaProps {}
 
 export const LIMIT = 16;
 
 export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWithChildren<IMediaProps>) => {
+  const [ isDragActive, setIsDragActive ] = React.useState(false);
+  const [ lastUpdate, setLastUpdate ] = React.useState<string | null>(null);
   const settings = useRecoilValue(SettingsSelector);
   const selectedFolder = useRecoilValue(SelectedMediaFolderAtom);
   const media = useRecoilValue(MediaAtom);
@@ -27,40 +30,57 @@ export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWi
   const loading = useRecoilValue(LoadingAtom);
   const viewData = useRecoilValue(ViewDataSelector);
   const [ , setView ] = useRecoilState(DashboardViewAtom);
-  useMedia();
+  const debounceMediaUpdate = useDebounce(lastUpdate, 500);
+  const { post } = useExtension();
+  const { getMedia } = useMedia();
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
+  const sendMediaFile = useCallback(async (fileName: string, contents: any, folder: string | null) => {
+    await post(MediaApi.upload, {
+      fileName,
+      contents,
+      folder
+    }, false);
 
-      reader.onload = () => {
-        const contents = reader.result;
-        // Messenger.send(DashboardMessage.uploadMedia, {
-        //   fileName: file.name,
-        //   contents,
-        //   folder: selectedFolder
-        // });
-      };
+    setLastUpdate(new Date().toTimeString());
+  }, [post, setLastUpdate]);
 
-      reader.readAsDataURL(file)
-    });
-  }, [selectedFolder]);
-
-  const {getRootProps, isDragActive} = useDropzone({
-    onDrop,
-    accept: 'image/*'
-  });
+  const mediaUpload = useCallback((event: MessageEvent<any>) => {
+    if (event?.data?.command === DashboardCommand.dragEnter) {
+      setIsDragActive(true);
+    } else if (event?.data?.command === DashboardCommand.dragLeave) {
+      setIsDragActive(false);
+    } else if (event?.data?.command === DashboardCommand.dragDrop) {
+      setIsDragActive(false);
+      const { item: { fileName, contents } } = event?.data?.message;
+      if (fileName && contents) {
+        sendMediaFile(fileName, contents, selectedFolder);
+      }
+    }
+  }, [ selectedFolder, sendMediaFile ]);
   
   useEffect(() => {
+    console.log(debounceMediaUpdate, selectedFolder);
+    if (debounceMediaUpdate) {
+      getMedia(0, selectedFolder || "", viewData?.sorting || null);
+    }
+  }, [debounceMediaUpdate, selectedFolder]);
+
+  useEffect(() => {
+    window.addEventListener("message", mediaUpload);
+
     setView(DashboardViewType.Media);
-  }, []);
+
+    return () => {
+      window.removeEventListener("message", mediaUpload);
+    }
+  }, [selectedFolder]);
 
   return (
     <main className={`h-full w-full`}>
       <div className="flex flex-col h-full overflow-auto">
         <Header settings={settings} />
 
-        <div id="drag-drop" className="w-full flex-grow max-w-7xl mx-auto py-6 px-4" {...getRootProps()}>
+        <div id="drag-drop" className="w-full flex-grow max-w-7xl mx-auto py-6 px-4">
 
           {
             viewData?.data?.filePath && (

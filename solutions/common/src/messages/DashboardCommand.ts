@@ -1,4 +1,7 @@
 export enum DashboardCommand {
   settingsUpdate = "settingsUpdate",
-  mediaUpdate = "mediaUpdate"
+  mediaUpdate = "mediaUpdate",
+  dragEnter = "dragEnter",
+  dragLeave = "dragLeave",
+  dragDrop = "dragDrop",
 }

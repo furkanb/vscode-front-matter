@@ -21,7 +21,6 @@ import { CONTEXT } from "../constants";
 export class Dashboard {
   private static webview: WebviewPanel | null = null;
   private static isDisposed: boolean = true;
-  private static timers: { [folder: string]: any } = {};
   private static _viewData: DashboardData | undefined;
 
   public static get viewData(): DashboardData | undefined {
@@ -158,9 +157,6 @@ export class Dashboard {
         case DashboardMessage.setPageViewType:
           Extension.getInstance().setState(ExtensionState.PagesView, msg.data, "workspace");
           break;
-        case DashboardMessage.uploadMedia:
-          Dashboard.saveFile(msg?.data);
-          break;
       }
     });
   }
@@ -211,54 +207,6 @@ export class Dashboard {
         type: "message",
         ...msg
       });
-    }
-  }
-
-  /**
-   * Save the dropped file in the current folder
-   * @param fileData 
-   */
-  private static async saveFile({fileName, contents, folder}: { fileName: string; contents: string; folder: string | null }) {
-    if (fileName && contents) {
-      const wsFolder = Folders.getWorkspaceFolder();
-      const staticFolder = SettingsHelper.get<string>(SETTINGS_CONTENT_STATIC_FOLDER);
-      const wsPath = wsFolder ? wsFolder.fsPath : "";
-      let absFolderPath = join(wsPath, staticFolder || "");
-
-      if (folder) {
-        absFolderPath = folder;
-      }
-
-      if (!existsSync(absFolderPath)) {
-        absFolderPath = join(wsPath, folder || "");
-      }
-
-      if (!existsSync(absFolderPath)) {
-        Notifications.error(`We couldn't find your selected folder.`);
-        return;
-      }
-
-      const staticPath = join(absFolderPath, fileName);
-      const imgData = decodeBase64Image(contents);
-
-      if (imgData) {
-        writeFileSync(staticPath, imgData.data);
-        Notifications.info(`File ${fileName} uploaded to: ${folder}`);
-        
-        const folderPath = `${folder}`;
-        if (Dashboard.timers[folderPath]) {
-          clearTimeout(Dashboard.timers[folderPath]);
-          delete Dashboard.timers[folderPath];
-        }
-        
-        Dashboard.timers[folderPath] = setTimeout(() => {
-          MediaHelpers.resetMedia();
-          MediaHelpers.getFiles(0, folder || "");
-          delete Dashboard.timers[folderPath];
-        }, 500);
-      } else {
-        Notifications.error(`Something went wrong uploading ${fileName}`);
-      }
     }
   }
 }

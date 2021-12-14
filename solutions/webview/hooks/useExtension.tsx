@@ -13,7 +13,7 @@ export default function useExtension() {
     }
   }, [apiUrl]);
 
-  const post = useCallback(async (endPoint: string, apiData: any) => {
+  const post = useCallback(async (endPoint: string, apiData: any, fetchResponse: boolean = true) => {
     if (apiUrl) {
       const response = await fetch(`${apiUrl}/${endPoint}`, {
         method: 'POST',
@@ -23,8 +23,11 @@ export default function useExtension() {
         },
         body: JSON.stringify(apiData)
       });
-      const data = await response.json();
-      return data;
+      if (fetchResponse) {
+        const data = await response.json();
+        return data;
+      }
+      return;
     }
   }, [apiUrl]);
 
