@@ -24,7 +24,7 @@ export const ViewSwitch: React.FunctionComponent<IViewSwitchProps> = (props: Rea
 
   React.useEffect(() => {
     if (settings?.pageViewType) {
-      setView(settings?.pageViewType);
+      setView(settings?.pageViewType as any);
     }
   }, [settings?.pageViewType]);
 

@@ -10,6 +10,7 @@ export interface MediaPaths {
 export interface MediaInfo {
   fsPath: string; 
   vsPath: string | undefined;
+  localPath: string | undefined;
   dimensions?: ISizeCalculationResult | undefined;
   caption?: string | undefined;
   alt?: string | undefined;

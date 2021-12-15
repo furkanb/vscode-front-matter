@@ -9,8 +9,6 @@ import { SponsorMsg } from '../Footer/SponsorMsg';
 import { useEffect, useState } from 'react';
 import { DashboardViewType, Page, PagesApi } from '@frontmatter/common';
 import useExtension from '../../hooks/useExtension';
-import { DropTargetMonitor, useDrop } from 'react-dnd';
-import { NativeTypes } from 'react-dnd-html5-backend';
 
 export interface IContentsProps {}
 

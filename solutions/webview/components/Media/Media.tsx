@@ -61,7 +61,7 @@ export const Media: React.FunctionComponent<IMediaProps> = (props: React.PropsWi
   useEffect(() => {
     console.log(debounceMediaUpdate, selectedFolder);
     if (debounceMediaUpdate) {
-      getMedia(0, selectedFolder || "", viewData?.sorting || null);
+      getMedia(0, selectedFolder || "", viewData?.data.sorting || null);
     }
   }, [debounceMediaUpdate, selectedFolder]);
 

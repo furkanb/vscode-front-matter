@@ -7,7 +7,7 @@ export interface IStepProps {
   description: JSX.Element;
   status: Status;
   showLine: boolean;
-  onClick?: () => void | undefined;
+  onClick?: () => Promise<void> | void | undefined;
 }
 
 export const Step: React.FunctionComponent<IStepProps> = ({name, description, status, showLine, onClick}: React.PropsWithChildren<IStepProps>) => {

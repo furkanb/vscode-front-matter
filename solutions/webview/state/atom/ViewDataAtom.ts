@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { DashboardData } from '../../../models/DashboardData';
+import { DashboardData } from '@frontmatter/common';
 
 export const ViewDataAtom = atom<DashboardData | undefined>({
   key: 'ViewDataAtom',
