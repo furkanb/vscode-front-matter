@@ -1,7 +1,7 @@
 import { MarkdownFoldingProvider } from './../providers/MarkdownFoldingProvider';
 import { DEFAULT_CONTENT_TYPE, DEFAULT_CONTENT_TYPE_NAME } from './../constants/ContentType';
 import * as vscode from 'vscode';
-import * as matter from "gray-matter";
+import matter from "gray-matter";
 import * as fs from "fs";
 import { DefaultFields, SETTINGS_CONTENT_DEFAULT_FILETYPE, SETTINGS_CONTENT_PLACEHOLDERS, SETTINGS_CONTENT_SUPPORTED_FILETYPES, SETTING_COMMA_SEPARATED_FIELDS, SETTING_DATE_FIELD, SETTING_DATE_FORMAT, SETTING_INDENT_ARRAY, SETTING_REMOVE_QUOTES, SETTING_TAXONOMY_CONTENT_TYPES, SETTING_TEMPLATES_PREFIX } from '../constants';
 import { DumpOptions } from 'js-yaml';

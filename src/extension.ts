@@ -20,6 +20,7 @@ import { Wysiwyg } from './commands/Wysiwyg';
 import { Diagnostics } from './commands/Diagnostics';
 import { PagesListener } from './listeners';
 import { Backers } from './commands/Backers';
+import { LocalServer } from './server/main';
 
 let frontMatterStatusBar: vscode.StatusBarItem;
 let statusDebouncer: { (fnc: any, time: number): void; };
@@ -42,6 +43,10 @@ export async function activate(context: vscode.ExtensionContext) {
 	extension.migrateSettings();
 	
 	SettingsHelper.checkToPromote();
+
+	if (!LocalServer.isRunning()) {
+		await LocalServer.start();
+	}
 
 	// Start listening to the folders for content changes.
 	// This will make sure the dashboard is up to date
