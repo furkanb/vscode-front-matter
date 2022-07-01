@@ -1,4 +1,5 @@
 import { Messenger } from '@estruyf/vscode/dist/client';
+import { AdjustmentsIcon } from '@heroicons/react/outline';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Command } from '../Command';
@@ -55,6 +56,15 @@ const Collapsible: React.FunctionComponent<ICollapsibleProps> = ({id, children, 
 
   return (
     <VsCollapsible title={title} onClick={triggerClick} open={isOpen}>
+      <ul slot="actions">
+        <li>
+          <AdjustmentsIcon style={{
+            height: '16px',
+            width: '16px',
+          }}/>
+        </li>
+      </ul>
+      
       <div className={`section collapsible__body ${className || ""}`} slot="body">
         {children}
       </div>

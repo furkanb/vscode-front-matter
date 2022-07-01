@@ -1606,6 +1606,18 @@
           "light": "assets/icons/unordered-list-light.svg",
           "dark": "assets/icons/unordered-list-dark.svg"
         }
+      },
+      {
+        "command": "frontMatter.content.pin",
+        "title": "Pin content",
+        "category": "Front matter",
+        "icon": "$(timeline-pin)"
+      },
+      {
+        "command": "frontMatter.content.unpin",
+        "title": "Unpin content",
+        "category": "Front matter",
+        "icon": "$(timeline-unpin)"
       }
     ],
     "menus": {
@@ -1844,6 +1856,16 @@
       "view/title": [
         {
           "command": "frontMatter.collapseSections",
+          "group": "navigation@0",
+          "when": "view == frontMatter.explorer"
+        },
+        {
+          "command": "frontMatter.content.pin",
+          "group": "navigation@0",
+          "when": "view == frontMatter.explorer"
+        },
+        {
+          "command": "frontMatter.content.unpin",
           "group": "navigation@0",
           "when": "view == frontMatter.explorer"
         },
